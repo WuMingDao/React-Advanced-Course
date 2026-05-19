@@ -46,6 +46,7 @@
     "daisyui": "^5.5.19",
     "jotai-babel": "^0.1.0",
     "typescript": "~6.0.3",
-    "vite": "^8.0.11"
+    "vite": "^8.0.11",
+    "vite-plugin-pwa": "^1.3.0"
   }
 }
