@@ -1,5 +1,4 @@
 import { useQueryClient, useQuery, useMutation } from '@tanstack/react-query';
-import { useState } from 'react';
 import { toast } from 'sonner';
 import { authClient } from '@/utils/neon';
 import { getUserProfile } from '@/utils/userHelper';
@@ -31,14 +30,10 @@ export function useUserProfile() {
 export function useUserUpdate(user: User, currentAvatarFile: File | null) {
   const queryClient = useQueryClient();
 
-  const [name, setName] = useState(user.name || '');
-
   const { uploadAvatar, isUploading } = useUploadAvatar(currentAvatarFile);
 
   const { isPending: isUpdating, mutate: handleUpdate } = useMutation({
-    mutationFn: async (event: React.MouseEvent<HTMLButtonElement>) => {
-      event.preventDefault();
-
+    mutationFn: async ({ name }: { name: string }) => {
       let newName = '';
       let newAvatarURL = '';
 
@@ -85,8 +80,6 @@ export function useUserUpdate(user: User, currentAvatarFile: File | null) {
   });
 
   return {
-    name,
-    setName,
     isUpdating,
     handleUpdate,
     isUploading,
