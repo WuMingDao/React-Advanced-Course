@@ -9,3 +9,5 @@ dist
 configs
 
 .pnpm-store
+
+dev-dist
