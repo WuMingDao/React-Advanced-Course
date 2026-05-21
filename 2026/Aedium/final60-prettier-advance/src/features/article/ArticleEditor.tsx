@@ -1,12 +1,12 @@
 import { useDraft } from './draft';
 import { useEditor } from './editor';
-import { useEffect } from 'react';
-import { useAtom, useAtomValue } from 'jotai';
-import { editorPublishSignalAtom } from '@/atoms/editor';
-import { isEditorEmpty } from '@/utils/editorHelper';
-import { userAtom } from '@/atoms/user';
 import { usePublish } from './publish';
+import { editorPublishSignalAtom } from '@/atoms/editor';
+import { userAtom } from '@/atoms/user';
 import AppEditor from '@/ui/AppEditor';
+import { isEditorEmpty } from '@/utils/editorHelper';
+import { useAtom, useAtomValue } from 'jotai';
+import { useEffect } from 'react';
 
 function ArticleEditor() {
   const { draft, setDraft, saveDraft } = useDraft();

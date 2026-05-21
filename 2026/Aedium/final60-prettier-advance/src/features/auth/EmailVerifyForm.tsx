@@ -1,15 +1,14 @@
-import { useNavigate } from '@tanstack/react-router';
 import {
   useResendCountDown,
   useSendVerificationEmail,
   useVerifyEmailCode,
 } from './verificationEmail';
-import { SignedIn } from '@neondatabase/neon-js/auth/react';
-import RequireNotVerifiedEmail from '@/ui/RequireNotVerifiedEmail';
-import { useForm } from '@tanstack/react-form';
-import { FieldInfo } from '@/ui/FieldInfo';
-
 import { emailVerifySchema } from '@/schemas/EmailVerify';
+import { FieldInfo } from '@/ui/FieldInfo';
+import RequireNotVerifiedEmail from '@/ui/RequireNotVerifiedEmail';
+import { SignedIn } from '@neondatabase/neon-js/auth/react';
+import { useForm } from '@tanstack/react-form';
+import { useNavigate } from '@tanstack/react-router';
 
 function EmailVerifyForm() {
   const navigate = useNavigate();
@@ -58,10 +57,10 @@ function EmailVerifyForm() {
             e.stopPropagation();
             form.handleSubmit();
           }}
-          className="flex items-center justify-center min-h-screen"
+          className="flex min-h-screen items-center justify-center"
         >
           <fieldset className="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4">
-            <h2 className="text-center text-4xl mb-4">Email Verification</h2>
+            <h2 className="mb-4 text-center text-4xl">Email Verification</h2>
 
             <form.Field
               name="code"

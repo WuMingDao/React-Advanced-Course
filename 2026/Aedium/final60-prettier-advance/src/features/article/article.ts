@@ -7,7 +7,6 @@ import {
 import type { Article } from '@/types/Article';
 import { buildArticleInsert } from '@/utils/editorHelper';
 import type { BlockNoteEditor } from '@blocknote/core';
-
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useAtom } from 'jotai';
 import { toast } from 'sonner';

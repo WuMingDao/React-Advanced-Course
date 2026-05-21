@@ -1,7 +1,7 @@
-import { useNavigate } from '@tanstack/react-router';
 import { useUserProfile } from '../hooks/userProfile';
-import { useEffect } from 'react';
 import Loading from './Loading';
+import { useNavigate } from '@tanstack/react-router';
+import { useEffect } from 'react';
 
 function RequireVerifiedEmail({ children }: { children: React.ReactNode }) {
   const { user, isLoading } = useUserProfile();

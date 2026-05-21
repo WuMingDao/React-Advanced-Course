@@ -1,9 +1,9 @@
-import { useAtomValue } from 'jotai';
 import { userAtom } from '@/atoms/user';
 import { insertArticle } from '@/services/apiArticle';
 import { buildArticleInsert } from '@/utils/editorHelper';
 import type { BlockNoteEditor } from '@blocknote/core';
 import { useMutation } from '@tanstack/react-query';
+import { useAtomValue } from 'jotai';
 import { toast } from 'sonner';
 
 export function usePublish(editor: BlockNoteEditor) {

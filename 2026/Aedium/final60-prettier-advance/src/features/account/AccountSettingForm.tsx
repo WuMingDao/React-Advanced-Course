@@ -1,12 +1,11 @@
-import { Link } from '@tanstack/react-router';
-import type { User } from '@/types/User';
-import { useForm, useStore } from '@tanstack/react-form';
-import Avatar from '@/ui/Avatar';
-import { useUserUpdate } from '@/hooks/userProfile';
-
 import { useChangeAvatar, useUploadAvatar } from '../article/userAvatar';
-import { FieldInfo } from '@/ui/FieldInfo';
+import { useUserUpdate } from '@/hooks/userProfile';
 import { profileUpdateSchema } from '@/schemas/AccountSetting';
+import type { User } from '@/types/User';
+import Avatar from '@/ui/Avatar';
+import { FieldInfo } from '@/ui/FieldInfo';
+import { useForm, useStore } from '@tanstack/react-form';
+import { Link } from '@tanstack/react-router';
 
 function AccountSettingForm({ user }: { user: User }) {
   const { avatarURL, currentAvatarFile, handleImageChange } =

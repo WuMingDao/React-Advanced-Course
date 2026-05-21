@@ -1,11 +1,11 @@
-import { useUserProfile } from '@/hooks/userProfile';
 import AccountSettingForm from './AccountSettingForm';
+import { useUserProfile } from '@/hooks/userProfile';
 
 function AccountSetting() {
   const { user, isLoading } = useUserProfile();
 
   return (
-    <main className="flex items-center justify-center content-layout-h">
+    <main className="content-layout-h flex items-center justify-center">
       {!user || isLoading ? (
         <div className="skeleton h-32 w-xs"></div>
       ) : (

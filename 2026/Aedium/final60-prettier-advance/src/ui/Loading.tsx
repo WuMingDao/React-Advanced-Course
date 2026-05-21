@@ -1,6 +1,6 @@
 function Loading() {
   return (
-    <span className="flex mx-auto min-h-screen loading loading-spinner loading-xl"></span>
+    <span className="loading loading-spinner loading-xl mx-auto flex min-h-screen"></span>
   );
 }
 

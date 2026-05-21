@@ -1,11 +1,10 @@
-import AppEditor from '@/ui/AppEditor';
 import {
   useCurrentArticle,
   useUpdateArticle,
 } from '@/features/article/article';
-import Loading from '@/ui/Loading';
-
 import { Route as articleEditRoute } from '@/routes/_app/_protected/articles.edit.$articleId';
+import AppEditor from '@/ui/AppEditor';
+import Loading from '@/ui/Loading';
 import { buildArticleInsert, isEditorEmpty } from '@/utils/editorHelper';
 import { useCreateBlockNote } from '@blocknote/react';
 import { useBlocker, useNavigate } from '@tanstack/react-router';

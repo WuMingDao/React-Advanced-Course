@@ -1,10 +1,10 @@
-import { useQueryClient, useQuery, useMutation } from '@tanstack/react-query';
-import { toast } from 'sonner';
-import { authClient } from '@/utils/neon';
-import { getUserProfile } from '@/utils/userHelper';
-import type { User } from '@/types/User';
 import { useUploadAvatar } from '@/features/article/userAvatar';
 import type { ProfileUpdate } from '@/schemas/AccountSetting';
+import type { User } from '@/types/User';
+import { authClient } from '@/utils/neon';
+import { getUserProfile } from '@/utils/userHelper';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { toast } from 'sonner';
 
 const SUPABASE_PROJECT_URL = import.meta.env.VITE_SUPABASE_PROJECT_URL;
 

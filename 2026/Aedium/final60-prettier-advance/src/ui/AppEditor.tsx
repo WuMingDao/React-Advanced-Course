@@ -1,10 +1,8 @@
-import { type BlockNoteEditor } from '@blocknote/core';
-import { BlockNoteView } from '@blocknote/mantine';
-
 import styles from '@/features/article/ArticleEditor.module.css';
-import '@blocknote/mantine/style.css';
-
+import { type BlockNoteEditor } from '@blocknote/core';
 import '@blocknote/core/fonts/inter.css';
+import { BlockNoteView } from '@blocknote/mantine';
+import '@blocknote/mantine/style.css';
 
 function AppEditor({
   className,

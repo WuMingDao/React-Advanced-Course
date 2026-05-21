@@ -12,7 +12,7 @@ function Sidebar() {
         aria-label="close sidebar"
         className="drawer-overlay"
       ></label>
-      <div className="flex min-h-full flex-col items-start bg-base-200 is-drawer-close:w-14 is-drawer-open:w-64">
+      <div className="bg-base-200 is-drawer-close:w-14 is-drawer-open:w-64 flex min-h-full flex-col items-start">
         {/* Sidebar content here */}
         <ul className="menu w-full grow">
           <SignedIn>

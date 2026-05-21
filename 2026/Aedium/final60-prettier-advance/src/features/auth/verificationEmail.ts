@@ -1,9 +1,9 @@
+import type { EmailVerify } from '@/schemas/EmailVerify';
+import { authClient } from '@/utils/neon';
+import { getUserProfile } from '@/utils/userHelper';
 import { useMutation } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
-import { authClient } from '@/utils/neon';
-import { getUserProfile } from '@/utils/userHelper';
-import type { EmailVerify } from '@/schemas/EmailVerify';
 
 export function useSendVerificationEmail(
   setResendTimer: (resendTimer: number) => void,

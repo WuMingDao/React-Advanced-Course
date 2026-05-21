@@ -1,7 +1,7 @@
-import { AuthView, SignedIn } from '@neondatabase/neon-js/auth/react';
-import { Route as AuthRoute } from '@/routes/auth.$pathname';
 import { Route as IndexRoute } from '@/routes/_app/index';
+import { Route as AuthRoute } from '@/routes/auth.$pathname';
 import RedirectToHome from '@/ui/RedirectToHome';
+import { AuthView, SignedIn } from '@neondatabase/neon-js/auth/react';
 
 function Auth() {
   const { pathname } = AuthRoute.useParams();

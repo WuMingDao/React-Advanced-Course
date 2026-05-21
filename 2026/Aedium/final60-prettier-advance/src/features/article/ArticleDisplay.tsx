@@ -1,18 +1,18 @@
-import { useCreateBlockNote } from '@blocknote/react';
+import { useDeleteArticle } from '@/features/article/article';
 import { Route as ArticleRoute } from '@/routes/_app/articles.$articleId';
-import { useQuery } from '@tanstack/react-query';
 import { getArticleById } from '@/services/apiArticle';
-import Loading from '@/ui/Loading';
 import AppEditor from '@/ui/AppEditor';
+import Loading from '@/ui/Loading';
+import { useCreateBlockNote } from '@blocknote/react';
+import { SignedIn } from '@neondatabase/neon-js/auth/react';
 import {
   BookmarkIcon,
   PencilCircleIcon,
   ThumbsUpIcon,
   TrashIcon,
 } from '@phosphor-icons/react';
-import { SignedIn } from '@neondatabase/neon-js/auth/react';
+import { useQuery } from '@tanstack/react-query';
 import { Link, useNavigate } from '@tanstack/react-router';
-import { useDeleteArticle } from '@/features/article/article';
 
 function ArticleDisplay() {
   const { articleId } = ArticleRoute.useParams();
@@ -39,7 +39,7 @@ function ArticleDisplay() {
 
   return (
     <>
-      <h1 className="text-center text-7xl font-serif mb-8">{article?.title}</h1>
+      <h1 className="mb-8 text-center font-serif text-7xl">{article?.title}</h1>
 
       <SignedIn>
         <div className="divider"></div>
@@ -61,7 +61,7 @@ function ArticleDisplay() {
               <Link
                 to="/articles/edit/$articleId"
                 params={{ articleId }}
-                className="tooltip bg-blue-600 mx-1"
+                className="tooltip mx-1 bg-blue-600"
                 data-tip="Edit"
               >
                 <PencilCircleIcon size={24} weight="thin" />
@@ -81,7 +81,7 @@ function ArticleDisplay() {
                     },
                   )
                 }
-                className="tooltip bg-red-600 mx-1"
+                className="tooltip mx-1 bg-red-600"
                 data-tip="Delete"
                 disabled={isDeleting}
               >

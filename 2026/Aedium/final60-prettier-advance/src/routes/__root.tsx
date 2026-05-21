@@ -1,13 +1,12 @@
-import { createRootRoute, Outlet } from '@tanstack/react-router';
-import { TanStackRouterDevtools } from '@tanstack/react-router-devtools';
 import { authClient } from '@/utils/neon';
 import { NeonAuthUIProvider } from '@neondatabase/neon-js/auth/react';
-import { Toaster } from 'sonner';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { Outlet, createRootRoute } from '@tanstack/react-router';
+import { TanStackRouterDevtools } from '@tanstack/react-router-devtools';
 import { DevTools } from 'jotai-devtools';
 import 'jotai-devtools/styles.css';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { Toaster } from 'sonner';
 
 const queryClient = new QueryClient();
 

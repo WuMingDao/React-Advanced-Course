@@ -1,19 +1,19 @@
 import {
+  editUpdateSignalAtom,
+  editorEmptySignalAtom,
+  editorPublishSignalAtom,
+  isEditorEmptyAtom,
+} from '@/atoms/editor';
+import { Route as editRoute } from '@/routes/_app/_protected/articles.edit.$articleId';
+import { Route as editorRoute } from '@/routes/_app/_protected/editor';
+import {
   SignedIn,
   SignedOut,
   UserButton,
 } from '@neondatabase/neon-js/auth/react';
 import { NotePencilIcon } from '@phosphor-icons/react';
 import { useLocation, useNavigate } from '@tanstack/react-router';
-import { Route as editorRoute } from '@/routes/_app/_protected/editor';
 import { useAtomValue, useSetAtom } from 'jotai';
-import {
-  editorEmptySignalAtom,
-  editorPublishSignalAtom,
-  editUpdateSignalAtom,
-  isEditorEmptyAtom,
-} from '@/atoms/editor';
-import { Route as editRoute } from '@/routes/_app/_protected/articles.edit.$articleId';
 
 function Navbar() {
   const navigate = useNavigate();
@@ -28,7 +28,7 @@ function Navbar() {
   const isEditPage = location.pathname.includes(editRoute.to.split('$')[0]);
 
   return (
-    <nav className="max-lg:collapse bg-base-200 shadow-sm w-full rounded-md">
+    <nav className="bg-base-200 w-full rounded-md shadow-sm max-lg:collapse">
       <input id="navbar-1-toggle" className="peer hidden" type="checkbox" />
       <label
         htmlFor="navbar-1-toggle"
@@ -70,7 +70,7 @@ function Navbar() {
             <input
               type="text"
               placeholder="Search"
-              className="input input-bordered w-38 lg:w-auto mr-1"
+              className="input input-bordered mr-1 w-38 lg:w-auto"
             />
           )}
         </div>
@@ -80,7 +80,7 @@ function Navbar() {
           <SignedIn>
             {!isEditorPage && !isEditPage && (
               <button
-                className="btn btn-sm hidden sm:inline-flex sm:btn-md mr-1 btn-ghost"
+                className="btn btn-sm sm:btn-md btn-ghost mr-1 hidden sm:inline-flex"
                 onClick={() => navigate({ to: '/editor' })}
               >
                 <NotePencilIcon size={24} weight="thin" />
