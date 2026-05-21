@@ -6,6 +6,9 @@ import {
 } from './verificationEmail';
 import { SignedIn } from '@neondatabase/neon-js/auth/react';
 import RequireNotVerifiedEmail from '@/ui/RequireNotVerifiedEmail';
+import { useForm } from '@tanstack/react-form';
+import { FieldInfo } from '@/ui/FieldInfo';
+import * as z from 'zod';
 
 function EmailVerifyForm() {
   const navigate = useNavigate();
@@ -15,35 +18,78 @@ function EmailVerifyForm() {
   const { sendVerificationEmail, isPending: isSending } =
     useSendVerificationEmail(setResendTimer);
 
-  const { verifyEmailCode, isVerifying, code, setCode } =
-    useVerifyEmailCode(navigate);
+  const { verifyEmailCode, isVerifying } = useVerifyEmailCode(navigate);
+
+  const codeSchema = z.object({
+    code: z
+      .string()
+      .trim()
+      .length(6, 'Code must be 6 digits')
+      .refine((val) => {
+        for (const char of val) {
+          if (char >= '0' && char <= '9') {
+            continue;
+          }
+
+          return false;
+        }
+
+        return true;
+      }, 'Code must be a number'),
+  });
+
+  const form = useForm({
+    defaultValues: {
+      code: '',
+    },
+
+    validators: {
+      onBlur: codeSchema,
+    },
+
+    onSubmit: ({ value: { code } }) => {
+      verifyEmailCode({ code });
+    },
+  });
 
   return (
     <SignedIn>
       <RequireNotVerifiedEmail>
-        <form className="flex items-center justify-center min-h-screen">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            form.handleSubmit();
+          }}
+          className="flex items-center justify-center min-h-screen"
+        >
           <fieldset className="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4">
             <h2 className="text-center text-4xl mb-4">Email Verification</h2>
 
-            <label className="label">Verification Code</label>
-            <input
-              type="text"
-              inputMode="numeric"
-              className="input"
-              placeholder="Your Code"
-              maxLength={6}
-              value={code}
-              onChange={(e) => setCode(e.target.value)}
+            <form.Field
+              name="code"
+              children={(field) => (
+                <>
+                  <label className="label">Verification Code</label>
+                  <input
+                    type="text"
+                    inputMode="numeric"
+                    className="input"
+                    placeholder="Your Code"
+                    maxLength={6}
+                    id={field.name}
+                    name={field.name}
+                    value={field.state.value}
+                    onBlur={field.handleBlur}
+                    onChange={(e) => field.handleChange(e.target.value)}
+                  />
+
+                  <FieldInfo field={field} />
+                </>
+              )}
             />
 
-            <button
-              className="btn btn-primary mt-4"
-              onClick={(event) => {
-                event.preventDefault();
-                verifyEmailCode();
-              }}
-              disabled={isVerifying}
-            >
+            <button className="btn btn-primary mt-4" disabled={isVerifying}>
               Verify
             </button>
             <button
