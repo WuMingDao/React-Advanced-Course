@@ -50,6 +50,8 @@ function ArticleEdit() {
         { article, editor },
         {
           onSuccess: () => {
+            setIsDirty(false);
+
             navigate({
               to: '/articles/$articleId',
               params: { articleId: articleId },
