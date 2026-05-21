@@ -8,7 +8,8 @@ import { SignedIn } from '@neondatabase/neon-js/auth/react';
 import RequireNotVerifiedEmail from '@/ui/RequireNotVerifiedEmail';
 import { useForm } from '@tanstack/react-form';
 import { FieldInfo } from '@/ui/FieldInfo';
-import * as z from 'zod';
+
+import { emailVerifySchema } from '@/schemas/EmailVerify';
 
 function EmailVerifyForm() {
   const navigate = useNavigate();
@@ -18,25 +19,7 @@ function EmailVerifyForm() {
   const { sendVerificationEmail, isPending: isSending } =
     useSendVerificationEmail(setResendTimer);
 
-  const { verifyEmailCode, isVerifying } = useVerifyEmailCode(navigate);
-
-  const codeSchema = z.object({
-    code: z
-      .string()
-      .trim()
-      .length(6, 'Code must be 6 digits')
-      .refine((val) => {
-        for (const char of val) {
-          if (char >= '0' && char <= '9') {
-            continue;
-          }
-
-          return false;
-        }
-
-        return true;
-      }, 'Code must be a number'),
-  });
+  const { verifyEmailCode, isVerifying } = useVerifyEmailCode();
 
   const form = useForm({
     defaultValues: {
@@ -44,11 +27,25 @@ function EmailVerifyForm() {
     },
 
     validators: {
-      onBlur: codeSchema,
+      onBlur: emailVerifySchema,
     },
 
     onSubmit: ({ value: { code } }) => {
-      verifyEmailCode({ code });
+      verifyEmailCode(
+        { code },
+        {
+          onSuccess: (data) => {
+            if (data.user) {
+              navigate({ to: '/' });
+            } else {
+              navigate({
+                to: '/auth/$pathname',
+                params: { pathname: 'sign-in' },
+              });
+            }
+          },
+        },
+      );
     },
   });
 

@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import { authClient } from '@/utils/neon';
 import { getUserProfile } from '@/utils/userHelper';
-import { type UseNavigateResult } from '@tanstack/react-router';
+import type { EmailVerify } from '@/schemas/EmailVerify';
 
 export function useSendVerificationEmail(
   setResendTimer: (resendTimer: number) => void,
@@ -70,13 +70,9 @@ export function useResendCountDown() {
   };
 }
 
-export function useVerifyEmailCode(navigate: UseNavigateResult<string>) {
+export function useVerifyEmailCode() {
   const { mutate: verifyEmailCode, isPending: isVerifying } = useMutation({
-    mutationFn: async ({ code }: { code: string }) => {
-      if (!code.trim().length) {
-        throw new Error('Code is required');
-      }
-
+    mutationFn: async ({ code }: EmailVerify) => {
       const user = await getUserProfile();
       if (!user) {
         throw new Error('User not found');
@@ -94,13 +90,8 @@ export function useVerifyEmailCode(navigate: UseNavigateResult<string>) {
     },
     mutationKey: ['verify-email'],
 
-    onSuccess: (data) => {
+    onSuccess: () => {
       toast.success('Email verified successfully');
-      if (data.user) {
-        navigate({ to: '/' });
-      } else {
-        navigate({ to: '/auth/$pathname', params: { pathname: 'sign-in' } });
-      }
     },
 
     onError: (error) => {

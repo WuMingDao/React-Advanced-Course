@@ -4,6 +4,7 @@ import { authClient } from '@/utils/neon';
 import { getUserProfile } from '@/utils/userHelper';
 import type { User } from '@/types/User';
 import { useUploadAvatar } from '@/features/article/userAvatar';
+import type { ProfileUpdate } from '@/schemas/AccountSetting';
 
 const SUPABASE_PROJECT_URL = import.meta.env.VITE_SUPABASE_PROJECT_URL;
 
@@ -33,13 +34,9 @@ export function useUserUpdate(user: User, currentAvatarFile: File | null) {
   const { uploadAvatar, isUploading } = useUploadAvatar(currentAvatarFile);
 
   const { isPending: isUpdating, mutate: handleUpdate } = useMutation({
-    mutationFn: async ({ name }: { name: string }) => {
+    mutationFn: async ({ name }: ProfileUpdate) => {
       let newName = '';
       let newAvatarURL = '';
-
-      if (!name.length) {
-        throw new Error('Name is required');
-      }
 
       if (name !== user.name) {
         newName = name;
