@@ -3,6 +3,7 @@ import type { User } from '@/types/User';
 import { useForm, useStore } from '@tanstack/react-form';
 import Avatar from '@/ui/Avatar';
 import { useUserUpdate } from '@/hooks/userProfile';
+import * as z from 'zod';
 
 import { useChangeAvatar, useUploadAvatar } from '../article/userAvatar';
 import { FieldInfo } from '@/ui/FieldInfo';
@@ -18,7 +19,15 @@ function AccountSettingForm({ user }: { user: User }) {
 
   useUploadAvatar(currentAvatarFile);
 
+  const nameSchema = z.object({
+    name: z.string().trim().min(2, 'Name must be at least 2 characters'),
+  });
+
   const form = useForm({
+    validators: {
+      onBlur: nameSchema,
+    },
+
     defaultValues: {
       name: user.name || '',
     },
@@ -80,6 +89,7 @@ function AccountSettingForm({ user }: { user: User }) {
                 onBlur={field.handleBlur}
                 onChange={(e) => field.handleChange(e.target.value)}
                 disabled={isUpdating}
+                maxLength={20}
               />
               <FieldInfo field={field} />
             </>
