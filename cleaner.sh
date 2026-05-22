@@ -1,8 +1,12 @@
-# Find all the node modules paths and delete all
-find ./ -name "node_modules" -type d -exec rm -rf {} +
+#!/usr/bin/env bash
+set -euo pipefail
 
-# Find all pnpm-lock.yaml files and delete them
-# find ./ -name "pnpm-lock.yaml" -type f -exec rm -rf {} +
+# Prune target directories as soon as they are found. This avoids traversing
+# huge node_modules trees before deleting them.
+find . \
+  -path './.git' -prune -o \
+  -type d \( -name 'node_modules' -o -name 'dist' \) -prune \
+  -exec rm -rf {} +
 
-# Find all dist folders and delete them
-find ./ -name "dist" -type d -exec rm -rf {} +
+# Uncomment if you also want to remove generated lockfiles.
+# find . -name 'pnpm-lock.yaml' -type f -delete
