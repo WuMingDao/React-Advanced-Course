@@ -8,7 +8,7 @@ import Loading from '@/ui/Loading';
 import { buildArticleInsert, isEditorEmpty } from '@/utils/editorHelper';
 import { useCreateBlockNote } from '@blocknote/react';
 import { useBlocker, useNavigate } from '@tanstack/react-router';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 
 function ArticleEdit() {
   const { articleId } = articleEditRoute.useParams();
@@ -16,7 +16,7 @@ function ArticleEdit() {
   const navigate = useNavigate();
 
   const initialArticle = useRef<string | null>(null);
-  const [isDirty, setIsDirty] = useState(false);
+  const isDirty = useRef(false);
 
   function handleEditorChange() {
     if (!article || !initialArticle.current) {
@@ -31,7 +31,7 @@ function ArticleEdit() {
     });
 
     if (currentArticle !== initialArticle.current) {
-      setIsDirty(true);
+      isDirty.current = true;
     }
   }
 
@@ -49,7 +49,7 @@ function ArticleEdit() {
         { article, editor },
         {
           onSuccess: () => {
-            setIsDirty(false);
+            isDirty.current = false;
 
             navigate({
               to: '/articles/$articleId',
@@ -68,13 +68,13 @@ function ArticleEdit() {
         content: article.content,
       });
 
-      setIsDirty(false);
+      isDirty.current = false;
     }
   }, [isLoading, article]);
 
   useBlocker({
     shouldBlockFn: () => {
-      if (!isDirty) {
+      if (!isDirty.current) {
         return false;
       }
 
