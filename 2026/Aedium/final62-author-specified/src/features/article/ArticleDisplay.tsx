@@ -2,6 +2,7 @@ import { useDeleteArticle } from '@/features/article/article';
 import { Route as ArticleRoute } from '@/routes/_app/articles.$articleId';
 import { getArticleById } from '@/services/apiArticle';
 import AppEditor from '@/ui/AppEditor';
+import CurrentUser from '@/ui/CurrentUser';
 import Loading from '@/ui/Loading';
 import { useCreateBlockNote } from '@blocknote/react';
 import { SignedIn } from '@neondatabase/neon-js/auth/react';
@@ -56,38 +57,41 @@ function ArticleDisplay() {
                 <BookmarkIcon size={24} weight="thin" />
               </a>
             </li>
-            {/* Edit */}
-            <li>
-              <Link
-                to="/articles/edit/$articleId"
-                params={{ articleId }}
-                className="tooltip mx-1 bg-blue-600"
-                data-tip="Edit"
-              >
-                <PencilCircleIcon size={24} weight="thin" />
-              </Link>
-            </li>
 
-            {/* Delete */}
-            <li>
-              <button
-                onClick={() =>
-                  deleteArticleById(
-                    { articleId: Number(articleId) },
-                    {
-                      onSuccess: () => {
-                        navigate({ to: '/' });
+            <CurrentUser article={article}>
+              {/* Edit */}
+              <li>
+                <Link
+                  to="/articles/edit/$articleId"
+                  params={{ articleId }}
+                  className="tooltip mx-1 bg-blue-600"
+                  data-tip="Edit"
+                >
+                  <PencilCircleIcon size={24} weight="thin" />
+                </Link>
+              </li>
+
+              {/* Delete */}
+              <li>
+                <button
+                  onClick={() =>
+                    deleteArticleById(
+                      { articleId: Number(articleId) },
+                      {
+                        onSuccess: () => {
+                          navigate({ to: '/' });
+                        },
                       },
-                    },
-                  )
-                }
-                className="tooltip mx-1 bg-red-600"
-                data-tip="Delete"
-                disabled={isDeleting}
-              >
-                <TrashIcon size={24} weight="thin" />
-              </button>
-            </li>
+                    )
+                  }
+                  className="tooltip mx-1 bg-red-600"
+                  data-tip="Delete"
+                  disabled={isDeleting}
+                >
+                  <TrashIcon size={24} weight="thin" />
+                </button>
+              </li>
+            </CurrentUser>
           </ul>
         </div>
         <div className="divider"></div>
