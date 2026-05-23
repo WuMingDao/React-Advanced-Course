@@ -2,6 +2,7 @@ import { useDeleteArticle } from '@/features/article/article';
 import { Route as ArticleRoute } from '@/routes/_app/articles.$articleId';
 import { getArticleById } from '@/services/apiArticle';
 import AppEditor from '@/ui/AppEditor';
+import Avatar from '@/ui/Avatar';
 import CurrentUser from '@/ui/CurrentUser';
 import Loading from '@/ui/Loading';
 import { useCreateBlockNote } from '@blocknote/react';
@@ -21,26 +22,50 @@ function ArticleDisplay() {
 
   const editor = useCreateBlockNote();
 
-  const { data: article, isLoading } = useQuery({
+  const { data: articleDisplay, isLoading } = useQuery({
     queryKey: ['article', articleId],
     queryFn: async () => {
-      const article = await getArticleById(Number(articleId));
+      const articleDisplay = await getArticleById(Number(articleId));
 
-      editor.replaceBlocks(editor.document, JSON.parse(article.content));
+      editor.replaceBlocks(editor.document, JSON.parse(articleDisplay.content));
 
-      return article;
+      return articleDisplay;
     },
   });
 
   const { deleteArticleById, isDeleting } = useDeleteArticle();
 
-  if (isLoading) {
+  const articleUpdatedTime = new Intl.DateTimeFormat(undefined, {
+    hour: '2-digit',
+    minute: 'numeric',
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  });
+
+  if (isLoading || !articleDisplay) {
     return <Loading />;
   }
 
   return (
     <>
-      <h1 className="mb-8 text-center font-serif text-7xl">{article?.title}</h1>
+      <h1 className="mb-8 text-center font-serif text-7xl">
+        {articleDisplay.title}
+      </h1>
+
+      <div className="flex items-center justify-center gap-4">
+        <Avatar
+          avatarURL={articleDisplay.author.image ?? ''}
+          username={articleDisplay.author.name}
+        />
+
+        <div>
+          <div className="text-4xl">{articleDisplay.author.name}</div>
+          <div className="opacity-50">
+            {articleUpdatedTime.format(new Date(articleDisplay.updated_at))}
+          </div>
+        </div>
+      </div>
 
       <SignedIn>
         <div className="divider"></div>
@@ -58,7 +83,7 @@ function ArticleDisplay() {
               </a>
             </li>
 
-            <CurrentUser article={article}>
+            <CurrentUser articleDisplay={articleDisplay}>
               {/* Edit */}
               <li>
                 <Link

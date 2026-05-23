@@ -1,4 +1,9 @@
-import type { InsertArticle, UpdateArticle } from '@/types/Article';
+import type {
+  ArticleDisplay,
+  ArticleWithAuthorProfile,
+  InsertArticle,
+  UpdateArticle,
+} from '@/types/Article';
 import { client } from '@/utils/neon';
 
 const ARTICLE_TABLE_NAME = 'article';
@@ -16,15 +21,16 @@ export async function getAllArticles() {
 
 export async function getArticleById(articleId: number) {
   const { data, error } = await client
-    .from(ARTICLE_TABLE_NAME)
+    .from('article_with_user_profile')
     .select('*')
-    .eq('id', articleId);
+    .eq('article_id', articleId)
+    .single();
 
   if (error) {
     throw error;
   }
 
-  return data[0];
+  return mapToArticleDisplay(data);
 }
 
 export async function insertArticle(insertArticle: InsertArticle) {
@@ -68,4 +74,32 @@ export async function deleteArticleById(articleId: number) {
   if (error) {
     throw error;
   }
+}
+
+function mapToArticleDisplay(row: ArticleWithAuthorProfile): ArticleDisplay {
+  if (
+    !row.article_id ||
+    !row.author_id ||
+    !row.title ||
+    !row.content ||
+    !row.created_at ||
+    !row.updated_at ||
+    !row.name ||
+    !row.image
+  ) {
+    throw new Error('Invalid article data');
+  }
+
+  return {
+    id: row.article_id,
+    author_id: row.author_id,
+    title: row.title,
+    content: row.content,
+    created_at: row.created_at,
+    updated_at: row.updated_at,
+    author: {
+      name: row.name,
+      image: row.image,
+    },
+  };
 }

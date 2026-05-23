@@ -38,7 +38,19 @@ export type Database = {
       };
     };
     Views: {
-      [_ in never]: never;
+      article_with_user_profile: {
+        Row: {
+          article_id: number | null;
+          author_id: string | null;
+          content: string | null;
+          created_at: string | null;
+          image: string | null;
+          name: string | null;
+          title: string | null;
+          updated_at: string | null;
+        };
+        Relationships: [];
+      };
     };
     Functions: {
       show_db_tree: {
