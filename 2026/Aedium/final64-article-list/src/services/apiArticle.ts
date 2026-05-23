@@ -9,14 +9,15 @@ import { client } from '@/utils/neon';
 const ARTICLE_TABLE_NAME = 'article';
 
 export async function getAllArticles() {
-  const { data, error } = await client.from(ARTICLE_TABLE_NAME).select('*');
+  const { data, error } = await client
+    .from('article_with_user_profile')
+    .select('*');
 
   if (error) {
     throw error;
   }
 
-  console.log(data);
-  return data;
+  return data.map((articleDisplay) => mapToArticleDisplay(articleDisplay));
 }
 
 export async function getArticleById(articleId: number) {

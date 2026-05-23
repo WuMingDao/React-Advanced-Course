@@ -4,19 +4,22 @@ import Loading from '@/ui/Loading';
 import { useQuery } from '@tanstack/react-query';
 
 function ArticleList() {
-  const { data: articles, isLoading } = useQuery({
+  const { data: articleDisplays, isLoading } = useQuery({
     queryKey: ['article-list'],
     queryFn: getAllArticles,
   });
 
-  if (isLoading) {
+  if (isLoading || !articleDisplays) {
     return <Loading />;
   }
 
   return (
     <ul className="list bg-base-100 rounded-box shadow-md">
-      {articles?.map((article) => (
-        <ArticleListItem key={article.id} article={article} />
+      {articleDisplays.map((articleDisplay) => (
+        <ArticleListItem
+          key={articleDisplay.id}
+          articleDisplay={articleDisplay}
+        />
       ))}
     </ul>
   );

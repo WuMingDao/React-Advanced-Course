@@ -1,9 +1,14 @@
-import type { Article } from '@/types/Article';
+import type { ArticleDisplay } from '@/types/Article';
+import Avatar from '@/ui/Avatar';
 import { HeartIcon } from '@phosphor-icons/react';
 import { Link } from '@tanstack/react-router';
 
-function ArticleListItem({ article }: { article: Article }) {
-  function getArticleBrief(content: string, maxLength = 100) {
+function ArticleListItem({
+  articleDisplay,
+}: {
+  articleDisplay: ArticleDisplay;
+}) {
+  function getArticleBrief(content: string, maxLength = 50) {
     const blocks = JSON.parse(content);
 
     let brief = '';
@@ -54,8 +59,37 @@ function ArticleListItem({ article }: { article: Article }) {
       : brief;
   }
 
+  const articleUpdatedTime = new Intl.DateTimeFormat(undefined, {
+    hour: '2-digit',
+    minute: 'numeric',
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  });
+
   return (
-    <Link to="/articles/$articleId" params={{ articleId: `${article.id}` }}>
+    <Link
+      to="/articles/$articleId"
+      params={{ articleId: `${articleDisplay.id}` }}
+    >
+      <div className="m-4 flex items-center gap-4">
+        <Avatar
+          avatarURL={articleDisplay.author.image ?? ''}
+          username={articleDisplay.author.name}
+          size="sm"
+          className="w-10"
+        />
+
+        <div>
+          <div className="text-2xl sm:text-4xl">
+            {articleDisplay.author.name}
+          </div>
+          <div className="opacity-50">
+            {articleUpdatedTime.format(new Date(articleDisplay.updated_at))}
+          </div>
+        </div>
+      </div>
+
       <li className="list-row h-40">
         <div>
           <img
@@ -66,12 +100,12 @@ function ArticleListItem({ article }: { article: Article }) {
         <div>
           {/* Title */}
           <div className="font-serif text-2xl font-bold sm:text-5xl">
-            {article.title}
+            {articleDisplay.title}
           </div>
 
           {/* Content brief */}
           <div className="text-sm font-semibold opacity-60 sm:text-2xl">
-            {getArticleBrief(article.content)}
+            {getArticleBrief(articleDisplay.content)}
           </div>
         </div>
 
