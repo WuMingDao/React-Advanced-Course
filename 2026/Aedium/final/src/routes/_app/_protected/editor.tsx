@@ -1,0 +1,6 @@
+import ArticleEditor from '@/features/article/ArticleEditor';
+import { createFileRoute } from '@tanstack/react-router';
+
+export const Route = createFileRoute('/_app/_protected/editor')({
+  component: ArticleEditor,
+});
